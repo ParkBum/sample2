@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:websocket="http://www.springframework.org/schema/websocket"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   		http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/aop
+	   		http://www.springframework.org/schema/aop/spring-aop.xsd 
+			http://www.springframework.org/schema/mvc
+	   		http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+	   		http://www.springframework.org/schema/context
+	   		http://www.springframework.org/schema/context/spring-context.xsd
+	   		http://www.springframework.org/schema/websocket
+	   		http://www.springframework.org/schema/websocket/spring-websocket-4.1.xsd">
+	
+	<context:component-scan base-package="controller,logic,dao,aop"/><!-- 사용할 패키지 설정 -->
+	
+	<mvc:annotation-driven/><!-- 어노테이션 설정을 위함 -->
+	
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+	<!--  XML로 URL 맵핑을 손수 적는 수고를 덜 수 있음 => (효과)@Controller..@RequestMapping().. -->
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
+		p:maxUploadSize="104857600" p:maxInMemorySize="10485760"/>
+	
+	<!-- 화면의 제어를 앞장서서 담당하는 dispatcher-servlet 부분 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value><!-- 요것의 의미는 무엇일까??? -->
+		</property>
+		<property name="prefix"><value>/WEB-INF/jsp/</value></property>
+		<property name="suffix"><value>.jsp</value></property>
+	</bean>
+	<!-- View 객체는 기본적으로 InternalResourceViewResolver인데, 
+	이 객체는 실제 랜더링을 수행할 JSP에 단순히 요청을 전달하는 일을 한다.
+	만약 JSTL 태그를 사용한다면 viewClass 특성을 설정함으로써 
+	InternalResourceView를 JstlView로 대체해야 한다.  -->
+	
+	
+	<mvc:view-controller path="/login.shop" view-name="masterLogin"/>
+	<!-- /login.shop 요청시 뷰를 masterLogin지정 -->
+	
+	<mvc:view-controller path="/logout.shop" view-name="logout"/>
+	<!-- /logout.shop 요청시 뷰를 logout지정 -->
+	
+</beans>

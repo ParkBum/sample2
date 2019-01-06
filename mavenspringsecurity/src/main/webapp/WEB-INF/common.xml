@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   		http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/aop
+	   		http://www.springframework.org/schema/aop/spring-aop.xsd 
+	   		http://www.springframework.org/schema/context
+	   		http://www.springframework.org/schema/context/spring-context.xsd">
+	   	
+	   	
+	   	<!-- dataSource : Connection 객체입니다.  -->
+	   	<!--	ConnectionPool(커넥션 풀) 사용하기
+				커넥션 풀 : 미리 db와 연결된 객체(Connection 객체)를 저장하고 있는 공간  -->
+	   	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+	   	<property name="driverClass"><value>org.mariadb.jdbc.Driver</value></property>
+	   	<property name="jdbcUrl"><value>jdbc:mariadb://localhost:3306/bigdb</value></property>
+		<property name="user"><value>scott</value></property>
+		<property name="password"><value>tiger</value></property>	
+		<property name="maxPoolSize"><value>20</value></property>	
+		<property name="minPoolSize"><value>3</value></property>			<!-- 연결이 없을때, 최소 Connection객체 갯수.  -->
+		<property name="initialPoolSize"><value>5</value></property>		<!-- 아무것도 없을 때, 초기 Connection객체 갯수. 처음 만들때 5개의 Connection을 만들어라..-->
+		<property name="acquireIncrement"><value>5</value></property>		<!-- 증가 Connection갯수 -->
+	   	</bean>
+</beans>
